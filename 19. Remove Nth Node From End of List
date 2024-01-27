@@ -1,0 +1,20 @@
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
+struct ListNode *fast=head;
+if(head==NULL)
+return NULL;
+struct ListNode *slow=head;
+int count=1;
+while(n--){
+    printf(" ");
+    fast=fast->next;
+
+}
+if(fast==NULL)
+return slow->next;
+while(fast->next!=NULL){
+    slow=slow->next;
+    fast=fast->next;
+}
+slow->next=slow->next->next;
+return head;
+}
