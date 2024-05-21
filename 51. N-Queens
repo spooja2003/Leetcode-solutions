@@ -1,0 +1,45 @@
+#define faster ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        faster;
+        twos = vector<int> (2*n, 0);
+        int k=1;
+        for(int i=0;i<2*n;i++) {
+            twos[i]=k;
+            k<<=1;
+        }
+        vector<string> board(n, string(n,'.'));
+        size = n;
+        fill_queens(board, n);
+        return sol;
+    }
+
+    void fill_queens(vector<string> &board, int n) {
+        if (n==0) {
+            sol.emplace_back(board);
+            return ;
+        }
+        for(int i=0;i<size;i++) {
+            if(col & twos[i] || cross_diag & twos[n+i-1] || diag & twos[size-n+i]) {
+                continue;
+            }
+            board[size-n][i] = 'Q';
+            // row|=twos[size-n];
+            col|=twos[i];
+            cross_diag|=twos[n+i-1];
+            diag|= twos[size-n+i];
+            fill_queens(board, n-1);
+            // row^=twos[size-n];
+            col^=twos[i];
+            cross_diag^=twos[n+i-1];
+            diag^=twos[size-n+i];
+            board[size-n][i] = '.';
+        }
+    }
+
+    vector<vector<string>> sol;
+    size_t size;
+    int diag = 0,cross_diag = 0,col = 0;
+    vector<int> twos;
+};
