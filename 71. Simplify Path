@@ -1,0 +1,60 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        // To push the last directory in stack
+        if(path.back()!='/'){
+            path.push_back('/');
+        }
+        // To store the directory
+        stack<string> st;
+        // directory name
+        string name = "";
+        for(auto &it:path){
+            if(it=='/'){    // means new directory
+                if(name.empty()){   // no directory present
+                    continue;
+                }else{
+                    // directory contains '../' which means go back
+                    if(name.back()=='.'&&name.length()==2){ 
+                        if(!st.empty()){
+                            st.pop();
+                        }
+                    }else if(name.back()=='.'&&name.length()==1){
+                        // directory contains './' which means current directory
+                        name = "";
+                        continue;
+                    }else{
+                        // push the directory in stack
+                        st.push(name);
+                    }
+                    name="";
+                }
+            }else if(it=='.'){
+    // path contain '.' then either it can represent to name, curr directory or prev directory
+                if(name.empty() || name.back()=='.'){
+                    name.push_back(it);
+                }else{
+                    name.push_back(it);
+                }
+            }else{
+                name.push_back(it);
+            }
+        }
+        // pushing all the directory name in reverse order 
+        string ans="";
+        while(!st.empty()){
+            name = st.top();
+            int n = name.size();
+            st.pop();
+            for(int i=n-1; i>=0; i--){
+                ans.push_back(name[i]);
+            }
+            ans.push_back('/');
+        }
+        // reversing to get valid canonical path.
+        reverse(ans.begin(), ans.end());
+        // if stack is empty then we have to return '/' i.e root directory.
+        if(ans.empty()) ans.push_back('/');
+        return ans;
+    }
+};
