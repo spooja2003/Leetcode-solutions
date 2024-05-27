@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int increment(vector<int>& temp,vector<vector<int>>& ans, int index, int n, int k, int min){
+        if(temp[0] == min){
+            return 0;
+        }
+        if(temp[k] == n){
+        while(temp[index] == min+index ){
+            index--;
+        }
+        temp[index] += 1;
+        for(int j = index+1; j<=k; j++){
+            temp[j] = temp[j-1]+1;
+        }
+        }else{
+        temp[k]++;
+        }
+        ans.push_back(temp);
+        increment(temp, ans, k, n, k, min);
+        return 0;
+    }
+
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ans;
+        vector<int> temp; 
+        int holdK = k-1;
+        int i=1;
+
+        while(k--){
+            temp.push_back(i);
+            i++;
+        }
+
+        ans.push_back(temp);
+        int min = n-holdK;
+        increment(temp, ans, holdK, n, holdK, min);
+        return ans;
+    }
+};
